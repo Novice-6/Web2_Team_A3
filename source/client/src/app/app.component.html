@@ -1,0 +1,9 @@
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<app-site-header [variant]="variant" [currentUrl]="url"></app-site-header>
+
+<main id="main" appGsapReveal>
+  <router-outlet></router-outlet>
+</main>
+
+<app-site-footer [variant]="variant"></app-site-footer>
