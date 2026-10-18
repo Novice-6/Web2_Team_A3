@@ -1,0 +1,104 @@
+<section class="search-section">
+  <div class="container">
+    <h1>Find Events</h1>
+
+    <form id="search-form" class="search-form" role="search" (ngSubmit)="onFilterChange()">
+      <div class="search-input-group">
+        <input
+          type="search"
+          id="search-input"
+          name="q"
+          class="form-input search-input"
+          placeholder="Search events, locations..."
+          aria-label="Search events"
+          [(ngModel)]="filters.q"
+          (ngModelChange)="onQueryChange()"
+        >
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+
+      <div class="filters">
+        <div class="filter-group">
+          <label for="filter-status" class="filter-label">Status</label>
+          <select
+            id="filter-status"
+            name="status"
+            class="form-select"
+            [(ngModel)]="filters.status"
+            (ngModelChange)="onFilterChange()"
+          >
+            <option value="">All Status</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="ongoing">Ongoing</option>
+            <option value="suspended">Suspended</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-category" class="filter-label">Category</label>
+          <select
+            id="filter-category"
+            name="category"
+            class="form-select"
+            [(ngModel)]="filters.category"
+            (ngModelChange)="onFilterChange()"
+          >
+            <option value="">All Categories</option>
+            @for (category of categories; track category.id) {
+              <option [value]="category.name">{{ category.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="filter-group filter-checkbox">
+          <label class="form-check">
+            <input
+              type="checkbox"
+              id="filter-open"
+              name="open"
+              value="1"
+              [(ngModel)]="filters.open"
+              (ngModelChange)="onFilterChange()"
+            >
+            <span>Open for registration only</span>
+          </label>
+        </div>
+
+        <div class="filter-group filter-actions">
+          <button type="button" id="btn-clear-filters" class="btn btn-secondary" (click)="clearFilters()">Clear filters</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="results-section">
+  <div class="container">
+    <div class="results-header">
+      <h2 id="results-title">{{ title }}</h2>
+      <span id="results-count" class="results-count" aria-live="polite">{{ countText }}</span>
+    </div>
+
+    <div id="events-results" class="events-grid" aria-live="polite">
+      @switch (state) {
+        @case ('loading') {
+          <div class="loading">Searching...</div>
+        }
+        @case ('empty') {
+          <div class="empty-state">
+            <img src="assets/empty-state.svg" alt="" role="presentation">
+            <p>No events match your search criteria.</p>
+          </div>
+        }
+        @case ('error') {
+          <div class="alert alert-error" role="alert">Search failed. Please try again.</div>
+        }
+        @default {
+          @for (event of events; track event.id) {
+            <app-event-card [event]="event"></app-event-card>
+          }
+        }
+      }
+    </div>
+  </div>
+</section>
