@@ -1,0 +1,154 @@
+/* ============================================================
+   A3 Green Tomorrow - Home Page Styles
+   ============================================================ */
+
+/* Hero Dual Theme */
+.hero-dual {
+  padding: var(--space-3xl) 0;
+  background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-accent) 100%);
+}
+
+.hero-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: var(--space-md);
+}
+
+.theme-forest { color: var(--color-primary); }
+.theme-ocean { color: var(--color-secondary); }
+.hero-title .divider {
+  color: var(--color-text-light);
+  margin: 0 var(--space-md);
+}
+
+.hero-subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-2xl);
+}
+
+.theme-entries {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-xl);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.theme-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.theme-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.theme-image {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+}
+
+.theme-content {
+  padding: var(--space-lg);
+}
+
+.theme-content h2 {
+  font-size: 24px;
+  margin-bottom: var(--space-sm);
+}
+
+.theme-content p {
+  color: var(--color-text-light);
+  margin-bottom: var(--space-lg);
+}
+
+/* Featured Section */
+.featured-section {
+  padding: var(--space-3xl) 0;
+}
+
+.featured-section h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: var(--space-xl);
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.section-footer {
+  text-align: center;
+}
+
+/* Stats Section */
+.stats-section {
+  padding: var(--space-3xl) 0;
+  background: var(--color-white);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-xl);
+  text-align: center;
+}
+
+.stat-item {
+  padding: var(--space-lg);
+}
+
+.stat-number {
+  display: block;
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1;
+  margin-bottom: var(--space-sm);
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .theme-entries {
+    grid-template-columns: 1fr;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-title {
+    font-size: 24px;
+  }
+
+  .hero-title .divider {
+    display: none;
+  }
+
+  .theme-forest,
+  .theme-ocean {
+    display: block;
+  }
+}

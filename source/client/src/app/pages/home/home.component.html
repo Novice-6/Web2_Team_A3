@@ -1,0 +1,83 @@
+<section class="hero-dual">
+  <div class="container">
+    <h1 class="hero-title">
+      <span class="theme-forest">🌲 Forest Conservation</span>
+      <span class="divider">|</span>
+      <span class="theme-ocean">🌊 Ocean Protection</span>
+    </h1>
+    <p class="hero-subtitle">Join us in protecting our planet's most vital ecosystems</p>
+
+    <div class="theme-entries">
+      <article class="theme-card theme-forest-card">
+        <img src="assets/E-01.jpg" alt="Forest conservation volunteers planting trees" class="theme-image">
+        <div class="theme-content">
+          <h2>Forest Conservation</h2>
+          <p>Restore native woodlands and create green spaces for wildlife and communities.</p>
+          <a [routerLink]="['/search']" [queryParams]="{ category: 'Forest' }" class="btn btn-primary">Explore Forest Events</a>
+        </div>
+      </article>
+
+      <article class="theme-card theme-ocean-card">
+        <img src="assets/O-01.jpg" alt="Ocean tide pool with marine life" class="theme-image">
+        <div class="theme-content">
+          <h2>Ocean Protection</h2>
+          <p>Clean shorelines and protect marine habitats for future generations.</p>
+          <a [routerLink]="['/search']" [queryParams]="{ category: 'Ocean' }" class="btn btn-primary">Explore Ocean Events</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="featured-section">
+  <div class="container">
+    <h2>Current and Upcoming Events</h2>
+    <div id="featured-events" class="events-grid" aria-live="polite">
+      @switch (state) {
+        @case ('loading') {
+          <div class="loading">Loading events...</div>
+        }
+        @case ('empty') {
+          <div class="empty-state">
+            <img src="assets/empty-state.svg" alt="" role="presentation">
+            <p>No upcoming events at the moment.</p>
+          </div>
+        }
+        @case ('error') {
+          <div class="alert alert-error" role="alert">Failed to load events. Please try again later.</div>
+        }
+        @default {
+          @for (event of events; track event.id) {
+            <app-event-card [event]="event"></app-event-card>
+          }
+        }
+      }
+    </div>
+    <div class="section-footer">
+      <a [routerLink]="['/search']" class="btn btn-secondary">View All Events</a>
+    </div>
+  </div>
+</section>
+
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-number" id="stat-events">{{ display.events }}</span>
+        <span class="stat-label">Events This Month</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="stat-volunteers">{{ display.volunteers }}</span>
+        <span class="stat-label">Active Volunteers</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="stat-trees">{{ display.trees }}</span>
+        <span class="stat-label">Trees Planted</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="stat-shoreline">{{ display.shoreline }}</span>
+        <span class="stat-label">Shoreline Cleaned (km)</span>
+      </div>
+    </div>
+  </div>
+</section>
