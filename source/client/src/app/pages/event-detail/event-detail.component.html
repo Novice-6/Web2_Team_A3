@@ -1,0 +1,99 @@
+<div class="container">
+  <a [routerLink]="['/search']" class="back-link">← Back to Events</a>
+
+  <article id="event-detail" class="event-detail" aria-live="polite">
+    @switch (state) {
+      @case ('loading') {
+        <div class="loading">Loading event details...</div>
+      }
+      @case ('error') {
+        <div class="alert alert-error" role="alert">{{ errorMessage }}</div>
+      }
+      @default {
+        @if (event; as e) {
+          <div class="event-hero">
+            <img [src]="'assets/' + e.image" [alt]="e.title" class="event-image">
+            <div class="event-hero-content">
+              <h1>{{ e.title }}</h1>
+              <span [class]="'status-badge status-' + e.status">{{ statusLabel }}</span>
+            </div>
+          </div>
+
+          <div class="event-meta">
+            <span>📅 {{ e.date | formatDate }}</span>
+            <span>📍 {{ e.location }}</span>
+            <span>💰 {{ e.price }}</span>
+            @if (e.category) {
+              <span>🏷️ {{ e.category }}</span>
+            }
+          </div>
+
+          @if (forecastDays.length) {
+            <section class="event-section weather-section">
+              <h2>Weather Forecast</h2>
+              <p class="weather-caption">5-day outlook near {{ e.location }}</p>
+              <div class="weather-strip">
+                @for (day of forecastDays; track day.date) {
+                  <div class="weather-day">
+                    <span class="weather-icon" aria-hidden="true">{{ day.icon }}</span>
+                    <span class="weather-date">{{ day.date | formatDate }}</span>
+                    <span class="weather-temp">{{ day.max }}° / {{ day.min }}°</span>
+                    <span class="weather-label">{{ day.label }}</span>
+                  </div>
+                }
+              </div>
+            </section>
+          }
+
+          <div class="event-content">
+            <section class="event-section">
+              <h2>About This Event</h2>
+              <p>{{ e.description }}</p>
+            </section>
+
+            <section class="event-section">
+              <h2>Purpose</h2>
+              <p>{{ e.purpose }}</p>
+            </section>
+
+            @if (e.organisation) {
+              <section class="event-section">
+                <h2>Organised By</h2>
+                <p><strong>{{ e.organisation.name }}</strong></p>
+                <p>{{ e.organisation.focus }} · {{ e.organisation.city }}</p>
+                <p><a [href]="'mailto:' + e.organisation.email">{{ e.organisation.email }}</a></p>
+              </section>
+            }
+          </div>
+
+          <section class="registrations-section">
+            <h2>Registrations ({{ e.registrationCount || 0 }})</h2>
+            @if (e.registrations && e.registrations.length) {
+              <div class="registrations-list">
+                @for (reg of e.registrations; track reg.id) {
+                  <div class="registration-item">
+                    <span class="reg-name">{{ maskName(reg.name) }}</span>
+                    <span class="reg-email">{{ maskEmail(reg.email) }}</span>
+                    <span class="reg-quantity">{{ reg.quantity }} ticket{{ reg.quantity > 1 ? 's' : '' }}</span>
+                    <span class="reg-date">{{ reg.registeredAt | formatDate }}</span>
+                  </div>
+                }
+              </div>
+            } @else {
+              <p class="text-muted">No registrations yet. Be the first to register!</p>
+            }
+          </section>
+
+          <div class="event-actions">
+            @if (canRegister) {
+              <a [routerLink]="['/register']" [queryParams]="{ id: e.id }" class="btn btn-primary btn-lg">Register Now</a>
+            } @else {
+              <p class="alert alert-warning">Registration is closed for this event.</p>
+            }
+            <a [routerLink]="['/search']" class="btn btn-secondary">Back to Events</a>
+          </div>
+        }
+      }
+    }
+  </article>
+</div>
