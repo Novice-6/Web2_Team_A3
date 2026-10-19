@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="admin-page-header">
+    <h1>Event Management</h1>
+    <a routerLink="/admin/form" class="btn btn-primary">+ New Event</a>
+  </div>
+
+  <div class="admin-filters">
+    <div class="filter-group">
+      <label for="admin-status" class="filter-label">Status</label>
+      <select
+        id="admin-status"
+        class="form-select"
+        [(ngModel)]="status"
+        (ngModelChange)="onStatusChange()"
+      >
+        <option value="">All Status</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="ongoing">Ongoing</option>
+        <option value="suspended">Suspended</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <input
+        type="search"
+        id="admin-search"
+        class="form-input"
+        placeholder="Search events..."
+        [(ngModel)]="search"
+        (ngModelChange)="onSearchChange()"
+      >
+    </div>
+  </div>
+
+  <div class="admin-table-wrapper">
+    <table class="admin-table" id="admin-events-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Registrations</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @switch (state) {
+          @case ('loading') {
+            <tr><td colspan="7" class="loading">Loading...</td></tr>
+          }
+          @case ('empty') {
+            <tr><td colspan="7" class="empty-state">No events found.</td></tr>
+          }
+          @case ('error') {
+            <tr><td colspan="7" class="alert alert-error">Failed to load events.</td></tr>
+          }
+          @default {
+            @for (event of events; track event.id) {
+              <tr [attr.data-id]="event.id">
+                <td>{{ event.id }}</td>
+                <td>{{ event.title }}</td>
+                <td>{{ event.category }}</td>
+                <td>{{ event.date | formatDate }}</td>
+                <td><span [class]="'status-badge status-' + event.status">{{ event.status }}</span></td>
+                <td>{{ event.registrationCount || 0 }}</td>
+                <td class="actions">
+                  <a [routerLink]="['/admin/form']" [queryParams]="{ id: event.id }" class="btn btn-secondary btn-sm">Edit</a>
+                  <a [routerLink]="['/admin/registrations']" [queryParams]="{ id: event.id }" class="btn btn-secondary btn-sm">View Registrations</a>
+                  <button type="button" class="btn btn-danger btn-sm btn-delete" (click)="handleDelete(event)">Delete</button>
+                </td>
+              </tr>
+            }
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

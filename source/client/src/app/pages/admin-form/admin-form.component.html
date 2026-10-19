@@ -1,0 +1,283 @@
+<div class="container">
+  <a routerLink="/admin" class="back-link">← Back to Events</a>
+
+  <h1 id="form-title">{{ isEdit ? 'Edit Event' : 'New Event' }}</h1>
+
+  <form id="event-form" class="admin-form" novalidate (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="event-title" class="form-label">Title *</label>
+        <input
+          type="text"
+          id="event-title"
+          name="title"
+          class="form-input"
+          [class.error]="errors['title']"
+          required
+          minlength="2"
+          maxlength="60"
+          [(ngModel)]="model.title"
+        >
+        @if (errors['title']) {
+          <p class="form-error" role="alert">{{ errors['title'] }}</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="event-category" class="form-label">Category *</label>
+        <select
+          id="event-category"
+          name="categoryId"
+          class="form-select"
+          [class.error]="errors['categoryId']"
+          required
+          [(ngModel)]="model.categoryId"
+        >
+          <option value="">Select category</option>
+          @for (category of categories; track category.id) {
+            <option [value]="category.id">{{ category.name }}</option>
+          }
+        </select>
+        @if (errors['categoryId']) {
+          <p class="form-error" role="alert">{{ errors['categoryId'] }}</p>
+        }
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="event-organisation" class="form-label">Organisation *</label>
+      <select
+        id="event-organisation"
+        name="charityId"
+        class="form-select"
+        [class.error]="errors['charityId']"
+        required
+        [(ngModel)]="model.charityId"
+      >
+        <option value="">Select organisation</option>
+        @for (org of organisations; track org.id) {
+          <option [value]="org.id">{{ org.name }}</option>
+        }
+      </select>
+      @if (errors['charityId']) {
+        <p class="form-error" role="alert">{{ errors['charityId'] }}</p>
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="event-date" class="form-label">Date *</label>
+        <input
+          type="date"
+          id="event-date"
+          name="date"
+          class="form-input"
+          [class.error]="errors['date']"
+          required
+          [(ngModel)]="model.date"
+        >
+        @if (errors['date']) {
+          <p class="form-error" role="alert">{{ errors['date'] }}</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="event-location" class="form-label">Location *</label>
+        <input
+          type="text"
+          id="event-location"
+          name="location"
+          class="form-input"
+          [class.error]="errors['location']"
+          required
+          maxlength="60"
+          [(ngModel)]="model.location"
+        >
+        @if (errors['location']) {
+          <p class="form-error" role="alert">{{ errors['location'] }}</p>
+        }
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="event-status" class="form-label">Status *</label>
+        <select
+          id="event-status"
+          name="status"
+          class="form-select"
+          [class.error]="errors['status']"
+          required
+          [(ngModel)]="model.status"
+        >
+          <option value="upcoming">Upcoming</option>
+          <option value="ongoing">Ongoing</option>
+          <option value="suspended">Suspended</option>
+        </select>
+        @if (errors['status']) {
+          <p class="form-error" role="alert">{{ errors['status'] }}</p>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="event-price" class="form-label">Price *</label>
+        <input
+          type="text"
+          id="event-price"
+          name="price"
+          class="form-input"
+          placeholder="e.g. Free entry"
+          [class.error]="errors['price']"
+          required
+          [(ngModel)]="model.price"
+        >
+        @if (errors['price']) {
+          <p class="form-error" role="alert">{{ errors['price'] }}</p>
+        }
+      </div>
+    </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="event-latitude" class="form-label">Latitude *</label>
+      <input
+        type="number"
+        id="event-latitude"
+        name="latitude"
+        class="form-input"
+        placeholder="e.g. -33.8688"
+        step="any"
+        min="-90"
+        max="90"
+        [class.error]="errors['latitude']"
+        [(ngModel)]="model.latitude"
+      >
+      @if (errors['latitude']) {
+        <p class="form-error" role="alert">{{ errors['latitude'] }}</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="event-longitude" class="form-label">Longitude *</label>
+      <input
+        type="number"
+        id="event-longitude"
+        name="longitude"
+        class="form-input"
+        placeholder="e.g. 151.2093"
+        step="any"
+        min="-180"
+        max="180"
+        [class.error]="errors['longitude']"
+        [(ngModel)]="model.longitude"
+      >
+      @if (errors['longitude']) {
+        <p class="form-error" role="alert">{{ errors['longitude'] }}</p>
+      }
+    </div>
+  </div>
+
+    <div class="form-group">
+      <label for="event-image" class="form-label">Image *</label>
+      <select
+        id="event-image"
+        name="image"
+        class="form-select"
+        [class.error]="errors['image']"
+        required
+        [(ngModel)]="model.image"
+      >
+        <option value="">Select image</option>
+        @for (option of imageOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+      @if (errors['image']) {
+        <p class="form-error" role="alert">{{ errors['image'] }}</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="event-description" class="form-label">Description *</label>
+      <textarea
+        id="event-description"
+        name="description"
+        class="form-textarea"
+        [class.error]="errors['description']"
+        required
+        maxlength="500"
+        [(ngModel)]="model.description"
+      ></textarea>
+      @if (errors['description']) {
+        <p class="form-error" role="alert">{{ errors['description'] }}</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="event-purpose" class="form-label">Purpose *</label>
+      <textarea
+        id="event-purpose"
+        name="purpose"
+        class="form-textarea"
+        [class.error]="errors['purpose']"
+        required
+        maxlength="500"
+        [(ngModel)]="model.purpose"
+      ></textarea>
+      @if (errors['purpose']) {
+        <p class="form-error" role="alert">{{ errors['purpose'] }}</p>
+      }
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Save Event</button>
+      <a routerLink="/admin" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+
+  @if (isEdit) {
+    <div id="delete-section" class="delete-section">
+      <hr>
+      <h3>Danger Zone</h3>
+      <p>Deleting an event will also delete all associated registrations.</p>
+      <button id="btn-delete-event" type="button" class="btn btn-danger" (click)="onDelete()">Delete This Event</button>
+    </div>
+  }
+
+  @if (isEdit && registrationsLoaded) {
+    <section id="registrations-section" class="registrations-section">
+      <h2>Registrations for this event</h2>
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Quantity</th>
+              <th>Registered At</th>
+            </tr>
+          </thead>
+          <tbody>
+            @if (registrations.length === 0) {
+              <tr><td colspan="6" class="empty-state">No registrations yet.</td></tr>
+            } @else {
+              @for (reg of registrations; track reg.id) {
+                <tr>
+                  <td>{{ reg.id }}</td>
+                  <td>{{ maskName(reg.name) }}</td>
+                  <td>{{ maskEmail(reg.email) }}</td>
+                  <td>{{ maskPhone(reg.phone) }}</td>
+                  <td>{{ reg.quantity }}</td>
+                  <td>{{ reg.registeredAt | formatDate }}</td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <p><a [routerLink]="['/admin/registrations']" [queryParams]="{ id: eventId }" class="btn btn-secondary">Manage registrations</a></p>
+    </section>
+  }
+</div>
