@@ -1,0 +1,126 @@
+<div class="container">
+  <a [routerLink]="['/search']" class="back-link">← Back to Events</a>
+
+  <div class="registration-page">
+    <div id="event-summary" class="event-summary" aria-live="polite">
+      @switch (state) {
+        @case ('loading') {
+          <div class="loading">Loading event...</div>
+        }
+        @case ('error') {
+          <div class="alert alert-error" role="alert">{{ summaryError }}</div>
+        }
+        @default {
+          @if (event; as e) {
+            <div class="event-summary-card">
+              <img [src]="'assets/' + e.image" [alt]="e.title" class="summary-image">
+              <div class="summary-content">
+                <h3>{{ e.title }}</h3>
+                <div class="summary-meta">
+                  <span>📅 {{ e.date | formatDate }}</span>
+                  <span>📍 {{ e.location }}</span>
+                  <span>💰 {{ e.price }}</span>
+                </div>
+                @if (e.category) {
+                  <span [class]="'status-badge status-' + e.status">{{ e.category }}</span>
+                }
+              </div>
+            </div>
+          }
+        }
+      }
+    </div>
+
+    <section class="registration-form-section">
+      <h2>Registration</h2>
+
+      <form id="registration-form" novalidate [class.hidden]="formHidden" (ngSubmit)="submit()">
+        <div class="form-group">
+          <label for="reg-name" class="form-label">Full Name <span aria-label="required">*</span></label>
+          <input
+            type="text"
+            id="reg-name"
+            name="name"
+            class="form-input"
+            [class.error]="errors['name']"
+            required
+            minlength="2"
+            maxlength="30"
+            placeholder="Enter your full name"
+            [(ngModel)]="form.name"
+          >
+          @if (errors['name']) {
+            <p class="form-error" role="alert">{{ errors['name'] }}</p>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="reg-email" class="form-label">Email <span aria-label="required">*</span></label>
+          <input
+            type="email"
+            id="reg-email"
+            name="email"
+            class="form-input"
+            [class.error]="errors['email']"
+            required
+            placeholder="your@email.com"
+            [(ngModel)]="form.email"
+          >
+          @if (errors['email']) {
+            <p class="form-error" role="alert">{{ errors['email'] }}</p>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="reg-phone" class="form-label">Phone <span aria-label="required">*</span></label>
+          <input
+            type="tel"
+            id="reg-phone"
+            name="phone"
+            class="form-input"
+            [class.error]="errors['phone']"
+            required
+            placeholder="Enter your phone number"
+            [(ngModel)]="form.phone"
+          >
+          @if (errors['phone']) {
+            <p class="form-error" role="alert">{{ errors['phone'] }}</p>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="reg-quantity" class="form-label">Number of Tickets <span aria-label="required">*</span></label>
+          <select
+            id="reg-quantity"
+            name="quantity"
+            class="form-select"
+            [class.error]="errors['quantity']"
+            required
+            [(ngModel)]="form.quantity"
+          >
+            <option value="">Select quantity</option>
+            @for (n of quantities; track n) {
+              <option [value]="n">{{ n }}</option>
+            }
+          </select>
+          @if (errors['quantity']) {
+            <p class="form-error" role="alert">{{ errors['quantity'] }}</p>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Submit Registration</button>
+          <a [routerLink]="['/search']" class="btn btn-secondary">Cancel</a>
+        </div>
+      </form>
+
+      <div id="registration-success" class="alert alert-success" [class.hidden]="!success" role="status">
+        <strong>Registration Successful!</strong>
+        <p>{{ successText }}</p>
+        <a [routerLink]="['/search']" class="btn btn-secondary btn-sm mt-lg">View More Events</a>
+      </div>
+
+      <div #errorBox id="registration-error" class="alert alert-error" [class.hidden]="!errorMessage" role="alert">{{ errorMessage }}</div>
+    </section>
+  </div>
+</div>

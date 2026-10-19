@@ -1,0 +1,85 @@
+/* ============================================================
+   A3 Green Tomorrow - Registration Page Styles
+   ============================================================ */
+
+.registration-page {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.event-summary {
+  margin-bottom: var(--space-xl);
+}
+
+.event-summary-card {
+  display: flex;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.summary-image {
+  width: 160px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+}
+
+.summary-content h3 {
+  font-size: 20px;
+  margin-bottom: var(--space-sm);
+}
+
+.summary-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  color: var(--color-text-light);
+  font-size: 14px;
+  margin-bottom: var(--space-sm);
+}
+
+.registration-form-section {
+  padding: var(--space-xl);
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.registration-form-section h2 {
+  font-size: 24px;
+  margin-bottom: var(--space-xl);
+}
+
+.form-actions {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+#registration-success {
+  text-align: center;
+  padding: var(--space-2xl);
+}
+
+#registration-success p {
+  margin: var(--space-md) 0 var(--space-xl);
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .event-summary-card {
+    flex-direction: column;
+  }
+
+  .summary-image {
+    width: 100%;
+    height: 180px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+}
