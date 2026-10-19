@@ -1,0 +1,68 @@
+<div class="container">
+  <a routerLink="/admin" class="back-link">← Back to Events</a>
+
+  <div id="event-info" class="event-info-bar" aria-live="polite">
+    @switch (state) {
+      @case ('loading') {
+        <div class="loading">Loading...</div>
+      }
+      @case ('error') {
+        <div class="alert alert-error" role="alert">
+          {{ errorMessage || 'Failed to load registrations.' }}
+        </div>
+      }
+      @default {
+        @if (event) {
+          <div class="event-info">
+            <h2>{{ event.title }}</h2>
+            <p>📅 {{ event.date | formatDate }} | 📍 {{ event.location }} | {{ registrations.length }} registrations</p>
+          </div>
+        }
+      }
+    }
+  </div>
+
+  <div class="admin-table-wrapper">
+    <table class="admin-table" id="registrations-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Quantity</th>
+          <th>Registered At</th>
+        </tr>
+      </thead>
+      <tbody>
+        @switch (state) {
+          @case ('loading') {
+            <tr><td colspan="6" class="loading">Loading registrations...</td></tr>
+          }
+          @case ('empty') {
+            <tr><td colspan="6" class="empty-state">No registrations yet.</td></tr>
+          }
+          @case ('error') {
+            <tr><td colspan="6" class="alert alert-error">Failed to load registrations.</td></tr>
+          }
+          @default {
+            @for (reg of registrations; track reg.id) {
+              <tr>
+                <td>{{ reg.id }}</td>
+                <td>{{ maskName(reg.name) }}</td>
+                <td>{{ maskEmail(reg.email) }}</td>
+                <td>{{ maskPhone(reg.phone) }}</td>
+                <td>{{ reg.quantity }}</td>
+                <td>{{ reg.registeredAt | formatDate }}</td>
+              </tr>
+            }
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="admin-actions">
+    <button id="btn-export-csv" type="button" class="btn btn-secondary" (click)="exportToCsv()">Export CSV</button>
+  </div>
+</div>
